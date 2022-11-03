@@ -1,0 +1,56 @@
+<div class="container">
+  <div class="row">
+    <h4 style="background-color: silver;">注文履歴詳細</h4>
+  </div>
+
+<p>購入者
+  　<%= link_to (@order.customer.last_name + " " + @order.customer.first_name), admin_customer_path(@order.customer) %>
+</p>
+
+<p>注文日 <%= @order.created_at.to_s(:datetime_jp) %></p>
+
+<p>配送先 〒<%= @order.postal_code + @order.address + @order.name %></p>
+
+<p>支払方法 <%= @order.payment_method_i18n %></p>
+
+<%= form_with model: @order, url: admin_order_path, method: :patch, local:true do |f| %>
+<p>注文ステータス
+　　<%= f.select :status, Order.statuses_i18n.keys.map {|k| [I18n.t("enums.order.status.#{k}"), k]} %>
+　  <%= f.submit '更新', class: "btn btn-success" %>
+</p>
+
+<% end %>
+
+<table>
+  <thead>
+      <th class="border col-2", style="background-color: silver;">商品名</th>
+      <th class="border col-2", style="background-color: silver;">単価（税込）</th>
+      <th class="border col-2", style="background-color: silver;">数量</th>
+      <th class="border col-2", style="background-color: silver;">小計</th>
+      <th class="border col-3", style="background-color: silver;">製作ステータス</th>
+  </thead>
+  <tbody>
+<% @order.order_details.each do |order_detail| %>
+  <tr>
+    <td class="border-bottom col-3 pb-3">
+      <%= order_detail.item.name %>
+    </td>
+    <td class="border-bottom col-3 pb-3"><%= order_detail.item.price.to_s(:delimited) %></td>
+    <td class="border-bottom col-3 pb-3"><%= order_detail.amount %></td>
+    <td class="border-bottom col-3 pb-3">
+      <%= (order_detail.item.add_tax_price*order_detail.amount).to_s(:delimited) %></td>
+      <%= form_with model: order_detail, url: admin_order_detail_path(order_detail), method: :patch, local:true do |f| %>
+    <td class="border-bottom col-3 pb-3">
+      <%= f.select :making_status, OrderDetail.making_statuses_i18n.keys.map {|k| [I18n.t("enums.order_detail.making_status.#{k}"), k]} %>
+      <%= f.submit '更新', class: "btn btn-success" %>
+    </td>
+    <% end %>
+  </tr>
+  <% end %>
+
+
+  <h5>商品合計 <%= @order.billing.to_s(:delimited) %>円</h5>
+  <h5>送料 <%= @order.postage %>円</h5>
+  <h5>請求金額合計 <%= (@order.billing + @order.postage).to_s(:delimited) %>円</h5>
+
+</div>

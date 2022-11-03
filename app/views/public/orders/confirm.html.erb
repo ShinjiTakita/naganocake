@@ -1,0 +1,58 @@
+<div class="container">
+  <div class="row">
+    <h4 style="background-color: silver;">注文情報確認</h4>
+  </div>
+
+  <div class="row">
+    <table class="col-6 pt-5">
+      <thead>
+        <th class="border col-2", style="background-color: silver;">商品名</th>
+        <th class="border col-2", style="background-color: silver;">単価（税込）</th>
+        <th class="border col-2", style="background-color: silver;">数量</th>
+        <th class="border col-2", style="background-color: silver;">小計</th>
+      </thead>
+      <tbody>
+    <!-- ユーザーに確認してもらうための表示です -->
+    <% @cart_items.each do |cart| %>
+        <tr>
+          <td class="border col-2"><%= cart.item.name %></td>
+          <td class="border col-2"><%= (cart.item.add_tax_price).to_s(:delimited) %></td>
+          <td class="border col-2"><%= cart.amount %></td>
+          <td class="border col-2"><%= (cart.item.add_tax_price*cart.amount).to_s(:delimited) %></td>
+      </tbody>
+    <% end %>
+        </tr>
+    </table>
+  </div>
+
+  <div class="row py-3">
+    <div class="col-3 border">送料 <%= @order.postage %></div>
+    <div class="col-3 border">商品合計 <%= @billing.to_s(:delimited) %></div>
+    <div class="col-3 border">請求金額 <%= (@billing + @order.postage).to_s(:delimited) %></div>
+  </div>
+
+  <div class="row pb-3">
+    <h5 class="col-12 pb-3">支払方法 <%= @order.payment_method_i18n %></h5>
+    <h5 class="col-12">
+      お届け先
+      〒<%= @order.postal_code %>
+      <%= @order.address %>
+      <%= @order.name %>
+    </h5>
+  </div>
+
+  <div class="row">
+    <%= form_with model: @order, url: orders_path, method: :post, local: true do |f| %>
+    <%= f.hidden_field :postal_code %>
+    <%= f.hidden_field :address %>
+    <%= f.hidden_field :name %>
+    <%= f.hidden_field :postage %>
+    <%= f.hidden_field :billing, value: @billing %>
+    <%= f.hidden_field :payment_method %>
+    <%= f.hidden_field :status %>
+    <div class="col-4"></div>
+    <div class="col-4"><%= f.submit "注文を確定する", class: "btn btn-success" %></div>
+  <% end %>
+  </div>
+
+</div>

@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="row">
+    <h4 style="background-color: silver;">商品一覧<span>(全<%= @items.count %>件)</span></h4>
+  </div>
+
+    <div class="row">
+        <div class="col-8">
+      <div class="d-flex">
+        <% @items.each do |item| %>
+        <div class="me-4">
+          <div class="row">
+            <div class="col-2"></div>
+            <div class="col-5"><%= link_to (image_tag item.get_image, :size => '200x200'), item_path(item.id) %></div>
+          </div>
+          <div class="row">
+            <div class="col-2"></div>
+            <div class="col-5"><%= item.name %></div>
+          </div>
+          <div class="row">
+            <div class="col-2"></div>
+            <div class="col-5">¥<%= item.add_tax_price.to_s(:delimited) %></div>
+          </div>
+        </div>
+        <% end %>
+      </div>
+    </div>
+  </div>

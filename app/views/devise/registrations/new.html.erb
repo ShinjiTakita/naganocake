@@ -1,0 +1,71 @@
+<div class="container">
+  <div class="row pb-3">
+    <h4 style="background-color: silver;">新規会員登録</h4>
+  </div>
+    <%= form_with model: @customer, url: customer_registration_path do |f| %>
+      <!--%= render "customers/shared/error_messages", resource: resource %>-->
+
+  <div class="row pb-3">
+    <div class="col-2">名前</div>
+    <%= f.label :（姓） %>
+    <div class="col-4"><%= f.text_field :last_name, autofocus: true, autocomplete: "last_name" %></div>
+    <%= f.label :（名） %>
+    <div class="col-3"><%= f.text_field :first_name, autofocus: true, autocomplete: "first_name" %></div>
+  </div>
+
+  <div class="row pb-3">
+    <div class="col-2">フリガナ</div>
+    <%= f.label :（セイ） %>
+    <div class="col-4"><%= f.text_field :last_name_kana, autofocus: true, autocomplete: "last_name_kana" %></div>
+    <%= f.label :（メイ） %>
+    <div class="col-3"><%= f.text_field :first_name_kana, autofocus: true, autocomplete: "first_name_kana" %></div>
+  </div>
+
+  <div class="row pb-3">
+    <div class="col-3">メールアドレス</div>
+    <div class="col-4"><%= f.email_field :email, autofocus: true, autocomplete: "email" %></div>
+    <div class="col-3"></div>
+  </div>
+
+  <div class="row pb-3">
+    <div class="col-3">郵便番号（ハイフンなし）</div>
+    <div class="col-4"><%= f.text_field :postal_code, autofocus: true, autocomplete: "postal_code" %></div>
+    <div class="col-3"></div>
+  </div>
+
+  <div class="row pb-3">
+    <div class="col-3">住所</div>
+    <div class="col-4"><%= f.text_area :address, autofocus: true, autocomplete: "address" %></div>
+    <div class="col-3"></div>
+  </div>
+
+  <div class="row pb-3">
+    <div class="col-3">電話番号（ハイフンなし）</div>
+    <div class="col-4"><%= f.text_field :telephone_number, autofocus: true, autocomplete: "telephone_number" %></div>
+    <div class="col-3"></div>
+  </div>
+
+  <div class="row pb-3">
+    <div class="col-3">パスワード（６文字以上）</div>
+    <div class="col-4"><%= f.password_field :password, autocomplete: "new-password" %></div>
+  </div>
+
+  <div class="row pb-3">
+    <div class="col-3">パスワード（確認用）</div>
+    <div class="col-4"><%= f.password_field :password_confirmation, autocomplete: "new-password" %></div>
+  </div>
+
+  <div class="row pb-3">
+    <div class="col-4"></div>
+    <div class="col-5"><%= f.submit "新規登録", class: "btn btn-success" %></div>
+    </div>
+  <% end %>
+
+  <div class="row">
+    <h4 style="background-color: silver;">既に登録済みの方</h4>
+
+    <p class="col-12"><%= link_to "こちら", new_customer_session_path %>からログインしてください。</p>
+    </div>
+  </div>
+
+      <!--%= render "customers/shared/links" %>-->

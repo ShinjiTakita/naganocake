@@ -1,0 +1,68 @@
+<div class="container">
+  <div class="row">
+    <h4 style="background-color: silver;">注文履歴詳細</h4>
+  </div>
+
+  <div class="row">
+    <h5 class="col-2">注文情報</h5>
+    <div class="col-2"></div>
+    <div class="col-2"></div>
+    <div class="col-2"></div>
+    <h5 class="col-2">請求情報</h5>
+  </div>
+
+  <div class="row">
+    <div class="col-2 border", style="background-color: silver;">注文日</div>
+    <div class="col-4 border"><%= @order.created_at.to_s(:datetime_jp) %></div>
+    <div class="col-2"></div>
+    <div class="col-2 border", style="background-color: silver;">商品合計</div>
+    <div class="col-2 border"><%= @order.billing.to_s(:delimited) %></div>
+  </div>
+
+  <div class="row">
+    <div class="col-2 border", style="background-color: silver;">配送先</div>
+    <div class="col-3 border">〒<%= @order.postal_code + @order.address + @order.name %></div>
+    <div class="col-3"></div>
+    <div class="col-2 border", style="background-color: silver;">配送料</div>
+    <div class="col-2 border"><%= @order.postage %></div>
+  </div>
+
+  <div class="row">
+    <div class="col-2 border", style="background-color: silver;">支払方法</div>
+    <div class="col-3 border"><%= @order.payment_method_i18n %></div>
+    <div class="col-3"></div>
+    <h5 class="col-2 border", style="background-color: silver;">ご請求額</h5>
+    <div class="col-2 border"><%= (@order.billing + @order.postage).to_s(:delimited) %></div>
+  </div>
+
+  <div class="row">
+    <div class="col-2 border", style="background-color: silver;">ステータス</div>
+    <div class="col-3 border"><%= @order.status_i18n %></div>
+    <div class="col-3"></div>
+    <div class="col-2"></div>
+    <div class="col-2"></div>
+  </div>
+
+  <div class="row pt-3">
+    <h5 class="col-2">注文内容</h5>
+  </div>
+
+  <table>
+    <thead>
+        <th class="border", style="background-color: silver;">商品</th>
+        <th class="border", style="background-color: silver;">単価（税込）</th>
+        <th class="border", style="background-color: silver;">個数</th>
+        <th class="border", style="background-color: silver;">小計</th>
+    </thead>
+    <tbody>
+    <% @order.order_details.each do |order_detail| %>
+      <tr>
+        <td class="border"><%= order_detail.item.name %></td>
+        <td class="border"><%= order_detail.item.add_tax_price.to_s(:delimited) %></td>
+        <td class="border"><%= order_detail.amount %></td>
+        <td class="border"><%= (order_detail.item.add_tax_price*order_detail.amount).to_s(:delimited) %></td>
+      </tr>
+    </tbody>
+    <% end %>
+
+</div>

@@ -1,0 +1,56 @@
+<div class="container">
+  <div class="row">
+    <h4 style="background-color: silver;">商品編集</h4>
+  </div>
+    <%= form_with model: @item, url: admin_item_path(@item.id), method: :patch do |f| %>
+
+  <div class="row pb-3">
+    <div class="col-2"></div>
+    <div class="col-2">商品画像</div>
+    <div class="col-4"><%= f.file_field :image %></div>
+  </div>
+
+  <div class="row pb-3">
+    <div class="col-2"></div>
+    <div class="col-2">商品名</div>
+    <div class="col-4"><%= f.text_field :name, include_blank: "商品名" %></div>
+  </div>
+
+  <div class="row pb-3">
+    <div class="col-2"></div>
+    <div class="col-2">商品説明</div>
+    <div class="col-4"><%= f.text_area :introduction, include_blank: "ここに説明文を記述します" %></div>
+  </div>
+
+  <div class="row pb-3">
+    <div class="col-2"></div>
+    <div class="col-2">ジャンル</div>
+    <div class="col-4"><%= f.collection_select :genre_id, Genre.all, :id, :name, include_blank: "選択して下さい" %></div>
+  </div>
+
+  <div class="row pb-3">
+    <div class="col-2"></div>
+    <div class="col-2">税抜価格</div>
+    <div class="col-4"><%= f.text_field :price, include_blank: "1000" %>円</div>
+  </div>
+
+  <div class="row pb-3">
+    <div class="col-2"></div>
+    <div class="col-3">販売ステータス</div>
+    <div class="col-2">
+      <%= f.radio_button :is_active, true %>
+      <%= f.label :is_active, "販売中" %>
+    </div>
+    <div class="col-3">
+      <%= f.radio_button :is_active, false %>
+      <%= f.label :is_active, "販売停止中" %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-4"></div>
+    <div class="col-4"><%= f.submit '変更を保存', class: "btn btn-success" %></div>
+    <div class="col-4"></div>
+  </div>
+    <% end %>
+</div>

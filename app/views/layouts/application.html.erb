@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>NaganoCake</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <header>
+      <div class="container pt-5 pb-3">
+        <div class="row">
+      <% if customer_signed_in? %>
+          <h5 class="col-2">LOGO</h5>
+          <h6 class="col-2">ようこそ,<%= current_customer.last_name %>さん!</h6>
+          <div class="col-2">
+            <%= link_to "マイページ", my_page_path, class: "border" %>
+          </div>
+          <div class="col-2">
+            <%= link_to "商品一覧", items_path, class: "border" %>
+          </div>
+          <div class="col-2">
+            <%= link_to "カート", cart_items_path, class: "border" %>
+          </div>
+          <div class="col-2">
+            <%= link_to "ログアウト", destroy_customer_session_path, method: :delete, class: "border" %>
+          </div>
+        </div>
+      </div>
+
+      <div class="container pt-5 pb-3">
+        <div class="row">
+      <% elsif admin_signed_in? %>
+          <h5 class="col-2">LOGO</h5>
+          <div class="col-2">
+            <%= link_to "商品一覧", admin_items_path, class: "border" %>
+          </div>
+          <div class="col-2">
+            <%= link_to "会員一覧", admin_customers_path, class: "border" %>
+          </div>
+          <div class="col-2">
+            <%= link_to "注文履歴一覧", admin_home_path, class: "border" %>
+          </div>
+          <div class="col-2">
+            <%= link_to "ジャンル一覧", admin_genres_path, class: "border" %>
+          </div>
+          <div class="col-2">
+            <%= link_to "ログアウト", destroy_admin_session_path, method: :delete, class: "border" %>
+          </div>
+        </div>
+      </div>
+
+      <div class="container pt-5 pb-3">
+        <div class="row">
+          <% else %>
+          <h5 class="col-2">LOGO</h5>
+          <div class="col-2">
+            <%= link_to "About", about_path, class: "border" %>
+          </div>
+          <div class="col-2">
+            <%= link_to "商品一覧", items_path, class: "border" %>
+          </div>
+          <div class="col-2">
+            <%= link_to "新規登録", new_customer_registration_path, class: "border" %>
+          </div>
+          <div class="col-2">
+            <%= link_to "ログイン", new_customer_session_path, class: "border" %>
+          </div>
+          <% end %>
+        </div>
+      </div
+    </header>
+    <%= yield %>
+  </body>
+</html>
